@@ -12,7 +12,7 @@ from imdb_loader import text_data
 
 def initialize_session():
     config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
+    #config.gpu_options.allow_growth = True
     return tf.Session(config=config)
 
 ##################################################
@@ -28,7 +28,7 @@ filter_nums = [100, 100, 100]    # CNN filter number
 ##################################################
 
 END_TOKEN = "<eos>"
-data = text_data("./dataset/aclImdb/", max_len=max_len, end_token=END_TOKEN)
+data = text_data("../dataset/aclImdb/", max_len=max_len, end_token=END_TOKEN)
 model = Model(max_len=max_len,
               emb_dim=emb_dim,
               filter_sizes=filter_sizes,
