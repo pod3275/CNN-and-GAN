@@ -2,7 +2,7 @@ import random
 import numpy as np
 
 class text_data(object):
-    def __init__(self, path="./dataset/ptb", max_len=40, window=5, end_token="<eos>"):
+    def __init__(self, path="../dataset/ptb", max_len=40, window=5, end_token="<eos>"):
         self.train_pt, self.val_pt, self.test_pt = 0, 0, 0
         self.train_start, self.val_start, self.test_start = 0, 0, 0
         self.train_end, self.val_end, self.test_end = 0, 0, 0
