@@ -3,7 +3,7 @@ import random
 import numpy as np
 
 class text_data(object):
-    def __init__(self, path="./dataset/aclImdb/", max_vocab=20000, max_len=100, end_token="<eos>"):
+    def __init__(self, path="../dataset/aclImdb/", max_vocab=20000, max_len=100, end_token="<eos>"):
         self.train_pt, self.val_pt, self.test_pt = 0, 0, 0
         self.path = path
         self.max_len = max_len
