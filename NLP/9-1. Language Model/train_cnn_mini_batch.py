@@ -15,7 +15,7 @@ data = text_data("../dataset/ptb/")
 def initialize_session():
     config = tf.ConfigProto()
     #config.gpu_options.allow_growth = True
-    config.gpu_options.per_process_gpu_memory_fraction = 0.4
+    #config.gpu_options.per_process_gpu_memory_fraction = 0.4
     return tf.Session(config=config)
 
 ##################################################
