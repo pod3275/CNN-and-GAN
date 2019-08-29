@@ -13,7 +13,7 @@ from data_loader import text_data
 def initialize_session():
     config = tf.ConfigProto()
     #config.gpu_options.allow_growth = True
-    config.gpu_options.per_process_gpu_memory_fraction = 0.4
+    #config.gpu_options.per_process_gpu_memory_fraction = 0.4
     return tf.Session(config=config)
 
 ##################################################
@@ -26,7 +26,7 @@ use_clip = True         # Gradient clipping 쓸지 여부
 ##################################################
 
 END_TOKEN = "<eos>"
-data = text_data("./dataset/ptb", max_len=max_len, end_token=END_TOKEN)
+data = text_data("../dataset/ptb", max_len=max_len, end_token=END_TOKEN)
 model = Model(emb_dim=emb_dim, hidden_dim=hidden_dim, vocab_size=data.vocab_size,
               use_clip=True, learning_rate=learning_rate, end_token=data.w2idx[END_TOKEN])
 
