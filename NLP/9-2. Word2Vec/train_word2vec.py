@@ -12,7 +12,7 @@ from imdb_loader import text_data
 
 def initialize_session():
     config = tf.ConfigProto()
-    config.gpu_options.allow_growth = True
+    #config.gpu_options.allow_growth = True
     return tf.Session(config=config)
 
 ##################################################
@@ -27,7 +27,7 @@ use_clip = False        # Gradient clipping 쓸지 여부
 ##################################################
 
 END_TOKEN = "<eos>"
-data = text_data("./dataset", max_len=max_len, max_vocab=max_vocab, end_token=END_TOKEN)
+data = text_data("../dataset", max_len=max_len, max_vocab=max_vocab, end_token=END_TOKEN)
 with tf.variable_scope("w2v"):
     w2v = W2V(emb_dim=emb_dim, vocab_size=data.vocab_size, num_samples=num_samples,
               use_clip=True, learning_rate=learning_rate)
