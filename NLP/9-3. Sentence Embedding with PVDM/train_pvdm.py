@@ -25,7 +25,7 @@ learning_rate = 0.005   # Learning rate
 ##################################################
 
 END_TOKEN = "<eos>"
-data = text_data("./dataset/ptb", max_len=max_len, window=window, end_token=END_TOKEN)
+data = text_data("../dataset/ptb", max_len=max_len, window=window, end_token=END_TOKEN)
 model = Model(window=window, emb_dim=emb_dim, vocab_size=data.vocab_size, num_samples=num_samples,
               learning_rate=learning_rate, end_token=data.w2idx[END_TOKEN])
 
