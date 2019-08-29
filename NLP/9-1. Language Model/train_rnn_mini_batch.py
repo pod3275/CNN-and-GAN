@@ -9,7 +9,7 @@ import time
 
 from rnn_model import Model
 from data_loader import text_data
-data = text_data("./dataset/ptb/")
+data = text_data("../dataset/ptb/")
 
 
 def initialize_session():
