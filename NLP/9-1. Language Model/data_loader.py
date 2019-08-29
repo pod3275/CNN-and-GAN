@@ -2,7 +2,7 @@ import random
 import numpy as np
 
 class text_data(object):
-    def __init__(self, path="./dataset/ptb/", max_len=40):
+    def __init__(self, path="../dataset/ptb/", max_len=40):
         self.train_pt, self.val_pt, self.test_pt = 0, 0, 0
         self.path = path
         self.max_len = max_len
