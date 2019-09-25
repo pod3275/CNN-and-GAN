@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Sep 25 15:55:07 2019
+Created on Wed Sep 25 16:20:46 2019
 
 @author: lawle
 """
@@ -9,7 +9,24 @@ import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
 max_epochs = 15
-mnist = input_data.read_data_sets("./mnist/data/", one_hot=True)
+mnist = input_data.read_data_sets("../mnist/data/", one_hot=True)
+
+# define group normalization
+def group_norm(x, G=32, eps=1e-5, scope='') :
+    with tf.variable_scope(scope):
+        N, H, W, C = x.get_shape().as_list()
+        G = min(G, C)
+
+        x = tf.reshape(x, [-1, H, W, G, C // G])
+        mean, var = tf.nn.moments(x, [1, 2, 4], keep_dims=True)
+        x = (x - mean) / tf.sqrt(var + eps)
+
+        gamma = tf.get_variable('gamma', [1, 1, 1, C], initializer=tf.constant_initializer(1.0))
+        beta = tf.get_variable('beta', [1, 1, 1, C], initializer=tf.constant_initializer(0.0))
+
+        x = tf.reshape(x, [-1, H, W, C]) * gamma + beta
+
+    return x
 
 # input/output placeholder
 X = tf.placeholder(tf.float32, [None, 784])
@@ -20,14 +37,14 @@ X_image = tf.reshape(X, [-1,28,28,1])
 # consturct model
 W1 = tf.Variable(tf.random_normal([5, 5, 1, 32], stddev=0.01))
 L1 = tf.nn.conv2d(X_image, filter=W1, strides=[1, 1, 1, 1], padding='SAME')
-# batch normalization
-L1 = tf.contrib.layers.layer_norm(L1, center=True, scale=True)
+# group normalization
+L1 = group_norm(L1, G=4, scope='L1')
 L1 = tf.nn.relu(L1)
 L1 = tf.nn.max_pool(L1, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 
 W2 = tf.Variable(tf.random_normal([5, 5, 32, 64], stddev=0.01))
 L2 = tf.nn.conv2d(L1, filter=W2, strides=[1, 1, 1, 1], padding='SAME')
-L2 = tf.contrib.layers.layer_norm(L2, center=True, scale=True)
+L2 = group_norm(L2, G=8, scope='L2')
 L2 = tf.nn.relu(L2)
 L2 = tf.nn.max_pool(L2, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding='SAME')
 L2 = tf.reshape(L2, [-1, 7 * 7 * 64])
