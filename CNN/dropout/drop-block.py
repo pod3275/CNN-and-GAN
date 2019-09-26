@@ -1,8 +1,15 @@
-##### for jupyter notebook & lab ====> %matplotlib inline
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Sep 26 21:14:35 2019
+
+@author: lawle
+"""
+
 
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
 
+# dropblock: 일정 확률로 block_size*block_size 만큼의 영역을 제거
 def dropblock(x, keep_prob, block_size):
     _,w,h,c = x.shape.as_list()
     gamma = (1. - keep_prob) * (w * h) / (block_size ** 2) / ((w - block_size + 1) * (h - block_size + 1))
@@ -19,12 +26,15 @@ def dropblock(x, keep_prob, block_size):
 
     return tf.multiply(x, mask) * tf.to_float(tf.size(mask)) / tf.reduce_sum(mask)
 
+
 mnist = input_data.read_data_sets("./mnist/data/", one_hot=True)
 
+# input, output, keep_prob placeholder
 X = tf.placeholder(tf.float32, [None, 784])
 Y = tf.placeholder(tf.float32, [None, 10])
 keep_prob = tf.placeholder(tf.float32)
 
+# construct model
 X_image = tf.reshape(X, [-1,28,28,1])
 
 W1 = tf.Variable(tf.random_normal([3, 3, 1, 64], stddev=0.01))
@@ -60,12 +70,14 @@ init = tf.global_variables_initializer()
 sess = tf.Session()
 sess.run(init)
 
-batch_size = 100
+batch_size = 128
 total_batch = int(mnist.train.num_examples / batch_size)
 
+# measure: accuracy
 is_correct = tf.equal(tf.argmax(model, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 
+# training phase
 for epoch in range(15):
     total_cost = 0
 
