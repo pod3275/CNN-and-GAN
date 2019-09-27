@@ -10,6 +10,7 @@ import os
 from tensorflow.examples.tutorials.mnist import input_data
 
 os.environ['CUDA_VISIBLE_DEVICES'] = "0"
+
 max_epochs = 15
 mnist = input_data.read_data_sets("../mnist/data/", one_hot=True)
 

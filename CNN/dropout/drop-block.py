@@ -27,7 +27,8 @@ def dropblock(x, keep_prob, block_size):
     return tf.multiply(x, mask) * tf.to_float(tf.size(mask)) / tf.reduce_sum(mask)
 
 
-mnist = input_data.read_data_sets("./mnist/data/", one_hot=True)
+max_epochs = 15
+mnist = input_data.read_data_sets("../mnist/data/", one_hot=True)
 
 # input, output, keep_prob placeholder
 X = tf.placeholder(tf.float32, [None, 784])
@@ -78,7 +79,7 @@ is_correct = tf.equal(tf.argmax(model, 1), tf.argmax(Y, 1))
 accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
 
 # training phase
-for epoch in range(15):
+for epoch in range(max_epochs):
     total_cost = 0
 
     for i in range(total_batch):
